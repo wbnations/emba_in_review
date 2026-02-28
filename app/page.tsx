@@ -24,7 +24,7 @@ const GraduationCap = ({ className }: { className?: string }) => (
 );
 
 // --- Configuration ---
-const ACCESS_PASSWORD = process.env.NEXT_PUBLIC_APP_PASSWORD;
+const ACCESS_PASSWORD = process.env.NEXT_PUBLIC_APP_PASSWORD || "Athens2026"; 
 const COHORT_LINKEDIN_GROUP = "https://www.linkedin.com/groups/13356087/";
 
 const TEAM_CONFIG: Record<string, { courses: string[], weeks: number, presentations: number }> = {
@@ -104,17 +104,10 @@ export default function Page() {
     const stats = [
       { text: `Harvest ${Math.floor(hours * 12)} rows of Lavender`, sub: "South Island style." },
       { text: `Eat ${Math.floor(hours * 2.1)} Bowls of Gusto`, sub: "Term 3 lunch of champions." },
-      { text: `Enjoy ${Math.floor(hours / 4)} NZ Winery Dinners`, sub: "Pairs well with Capstone stress." },
-      { text: `Wait for the Terry coffee machine ${Math.floor((hours * 60) / 3.5)} times`, sub: "The longest 3.5 minutes of the degree." },
+      { text: `Enjoy ${Math.floor(hours / 4)} NZ Winery Dinners`, sub: "Capstone fuel." },
+      { text: `Wait for the Terry coffee machine ${Math.floor((hours * 60) / 3.5)} times`, sub: "Longest 3.5 mins ever." },
       { text: `Eat ${Math.floor(hours / 0.75)} Bucket Shop lunches`, sub: "Athens survival 101." },
-      { text: `Watch ${Math.floor(hours / 3.5)} UGA Football games`, sub: "Between study sessions." },
-      { text: `Write ${Math.floor(hours / 1.2)} AI blog posts`, sub: "Prompting for 'Executive Tone'." },
-      { text: `Read ${Math.floor(hours * 3)} HBR Case Studies`, sub: "Did we highlight though?" },
-      { text: `Endure ${Math.floor(hours / 14.5)} ATL-to-AKL flights`, sub: "Delta One dreams, middle seat reality." },
-      { text: `Build ${Math.floor(hours / 2.5)} 60-slide PowerPoint decks`, sub: "Alignment check on slide 40." },
-      { text: `Explain the EMBA schedule to your family ${Math.floor(hours / 6)} times`, sub: "One more residency to go!" },
-      { text: `Spot ${Math.floor(hours * 45)} sheep in New Zealand`, sub: "Counting them during Finance lectures." },
-      { text: `Search for an open Team Room ${Math.floor(hours / 2)} times`, sub: "Always booked at 9 PM." }
+      { text: `Watch ${Math.floor(hours / 3.5)} UGA Football games`, sub: "Go Dawgs!" }
     ];
     const seed = selectedId.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     return stats[seed % stats.length];
@@ -155,7 +148,7 @@ export default function Page() {
     return (
       <div className="min-h-screen bg-zinc-950 flex items-center justify-center p-6 text-zinc-100 font-sans">
         <div className="w-full max-w-md bg-zinc-900 border border-white/5 p-10 rounded-[2.5rem] text-center shadow-2xl">
-          <div className="w-16 h-16 bg-[#BA0C2F] rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-red-900/20"><GraduationCap className="text-black w-10 h-10" /></div>
+          <div className="w-16 h-16 bg-[#BA0C2F] rounded-2xl flex items-center justify-center mx-auto mb-6"><GraduationCap className="text-black w-10 h-10" /></div>
           <h1 className="text-2xl font-black mb-2 uppercase tracking-tighter">Cohort Access</h1>
           <form onSubmit={handleAuth} className="space-y-4">
             <input type="password" placeholder="Password" value={passwordInput} onChange={e => setPasswordInput(e.target.value)} className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-center text-white outline-none focus:ring-2 focus:ring-[#BA0C2F]" />
@@ -175,9 +168,8 @@ export default function Page() {
             <span className="text-xl font-bold italic tracking-tight">EMBA Wrapped '26</span>
           </div>
           <div className="flex items-center gap-4">
-            <a href={COHORT_LINKEDIN_GROUP} target="_blank" rel="noopener noreferrer" className="hidden lg:block text-[#0077b5] border border-[#0077b5]/30 px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-[#0077b5]/10 transition-all">UGA Executive MBA Class of 2026 LinkedIn Group</a>
             <select value={selectedId} onChange={e => setSelectedId(e.target.value)} className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-[#BA0C2F] outline-none">
-              <option value="">Select Profile (A-Z Last Name)</option>
+              <option value="">Select Profile</option>
               {students.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
             </select>
           </div>
@@ -189,19 +181,18 @@ export default function Page() {
           <div className="space-y-16">
             <header className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center p-10 bg-zinc-900/40 rounded-[2.5rem] border border-white/5 relative shadow-2xl overflow-hidden">
               <div className="lg:col-span-2 flex items-center gap-8">
-                <div className="w-32 h-32 rounded-full border-4 border-[#BA0C2F] overflow-hidden bg-zinc-800 shrink-0 shadow-2xl"><img src={`/photos/${selectedId}.png`} className="w-full h-full object-cover" /></div>
+                <div className="w-32 h-32 rounded-full border-4 border-[#BA0C2F] overflow-hidden bg-zinc-800 shrink-0"><img src={`/photos/${selectedId}.png`} className="w-full h-full object-cover" /></div>
                 <div><h1 className="text-5xl font-extrabold tracking-tighter leading-none mb-4 uppercase">Cheers, <br /><span className="text-[#BA0C2F]">{me.name}</span></h1><p className="text-zinc-500 font-bold uppercase tracking-widest text-[10px]">Terry College of Business</p></div>
               </div>
               <div className="bg-black/40 p-6 rounded-2xl border border-white/5">
                 <div className="flex justify-between items-end mb-2"><span className="text-[10px] font-black uppercase text-zinc-500 tracking-widest">Network Reach</span><span className="text-[#BA0C2F] font-black text-2xl">{networkInsights.percent}%</span></div>
-                <div className="flex flex-wrap gap-1 mb-4">{networkInsights.list.map(comp => <span key={comp} className="text-[8px] px-2 py-0.5 bg-zinc-800 text-zinc-300 rounded-md uppercase font-black tracking-tighter">{comp}</span>)}</div>
-                <div className="w-full h-2 bg-zinc-800 rounded-full overflow-hidden"><motion.div initial={{ width: 0 }} animate={{ width: `${networkInsights.percent}%` }} className="h-full bg-[#BA0C2F] shadow-[0_0_10px_rgba(186,12,47,0.5)]" /></div>
+                <div className="flex flex-wrap gap-1 mb-4">{networkInsights.list.map(comp => <span key={comp} className="text-[8px] px-2 py-0.5 bg-zinc-800 text-zinc-300 rounded-md uppercase font-black">{comp}</span>)}</div>
+                <div className="w-full h-2 bg-zinc-800 rounded-full overflow-hidden"><motion.div initial={{ width: 0 }} animate={{ width: `${networkInsights.percent}%` }} className="h-full bg-[#BA0C2F]" /></div>
               </div>
             </header>
 
             <section className="space-y-8">
-              <div className="flex items-center gap-3"><Award className="w-6 h-6 text-[#BA0C2F]" /><h2 className="text-2xl font-bold uppercase tracking-tight text-zinc-400">Team Intensity Settings</h2></div>
-              <p className="text-xs text-zinc-500 bg-zinc-900/50 p-4 rounded-xl border border-white/5 italic">* Calculation includes +1 week pre-work and +1 week finals for each term.</p>
+              <div className="flex items-center gap-3"><Award className="w-6 h-6 text-[#BA0C2F]" /><h2 className="text-2xl font-bold uppercase tracking-tight text-zinc-400">Team Intensity</h2></div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {data.teams.filter(t => t.memberIds.includes(selectedId)).map(t => {
                   const config = TEAM_CONFIG[t.term];
@@ -209,19 +200,14 @@ export default function Page() {
                   return (
                     <div key={t.id} className="bg-zinc-900/60 border border-zinc-800 p-8 rounded-3xl space-y-6 shadow-xl">
                       <div className="flex justify-between items-start"><h3 className="text-xl font-bold">{t.name}</h3><span className="bg-[#BA0C2F] text-white text-[10px] px-2 py-0.5 rounded font-black">{totalHrs} Total Hrs</span></div>
-                      <div className="flex flex-wrap gap-1.5 mb-2">{config?.courses.map(c => <span key={c} className="text-[9px] px-2 py-0.5 bg-zinc-800 text-zinc-400 rounded-full border border-zinc-700 font-bold">{c}</span>)}</div>
                       <div className="space-y-5 pt-2">
                         <div className="space-y-1">
                           <div className="flex justify-between text-[10px] font-black uppercase text-zinc-500"><span>Weekly Meetings</span><span className="text-[#BA0C2F]">{meetingHours[t.id] || 0} hr/wk</span></div>
                           <input type="range" min="0" max="15" step="1" value={meetingHours[t.id] || 0} onChange={e => setMeetingHours(prev => ({...prev, [t.id]: Number(e.target.value)}))} className="w-full accent-[#BA0C2F] cursor-pointer" />
                         </div>
                         <div className="space-y-1">
-                          <div className="flex justify-between text-[10px] font-black uppercase text-zinc-400"><span>Study Sessions (Total)</span><span className="text-white">{studyHours[t.id] || 0} hrs</span></div>
+                          <div className="flex justify-between text-[10px] font-black uppercase text-zinc-400"><span>Study (Total)</span><span className="text-white">{studyHours[t.id] || 0} hrs</span></div>
                           <input type="range" min="0" max="100" step="5" value={studyHours[t.id] || 0} onChange={e => setStudyHours(prev => ({...prev, [t.id]: Number(e.target.value)}))} className="w-full accent-zinc-500 cursor-pointer" />
-                        </div>
-                        <div className="space-y-1">
-                          <div className="flex justify-between text-[10px] font-black uppercase text-zinc-400"><span>Late Night Grinds (Total)</span><span className="text-white">{lateNightHours[t.id] || 0} hrs</span></div>
-                          <input type="range" min="0" max="50" step="5" value={lateNightHours[t.id] || 0} onChange={e => setLateNightHours(prev => ({...prev, [t.id]: Number(e.target.value)}))} className="w-full accent-zinc-500 cursor-pointer" />
                         </div>
                       </div>
                     </div>
@@ -234,13 +220,12 @@ export default function Page() {
               <div className="flex items-center gap-3"><Users className="w-6 h-6 text-[#BA0C2F]" /><h2 className="text-2xl font-bold uppercase tracking-tight text-zinc-400">Shared Journey</h2></div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {rankedPeers.map((p, idx) => (
-                  <motion.div layout key={p.id} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 pt-12 relative overflow-hidden group">
-                    <div className={`absolute top-3 right-3 px-2 py-0.5 text-[9px] font-black uppercase rounded shadow-lg z-10 ${getTier(idx).color}`}>{getTier(idx).label}</div>
-                    <div className="flex items-center gap-4 mb-6"><div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#BA0C2F] bg-zinc-800 shadow-md shrink-0"><img src={`/photos/${p.id}.png`} className="w-full h-full object-cover" /></div><div className="min-w-0"><h3 className="font-bold text-sm truncate pr-14 leading-tight">{p.name}</h3><p className="text-[#BA0C2F] font-black text-2xl">{p.totalHours}h</p></div></div>
+                  <motion.div layout key={p.id} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 pt-12 relative overflow-hidden">
+                    <div className={`absolute top-3 right-3 px-2 py-0.5 text-[9px] font-black uppercase rounded ${getTier(idx).color}`}>{getTier(idx).label}</div>
+                    <div className="flex items-center gap-4 mb-6"><div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#BA0C2F] bg-zinc-800"><img src={`/photos/${p.id}.png`} className="w-full h-full object-cover" /></div><div className="min-w-0"><h3 className="font-bold text-sm truncate pr-14 leading-tight">{p.name}</h3><p className="text-[#BA0C2F] font-black text-2xl">{p.totalHours}h</p></div></div>
                     <div className="space-y-4 pt-4 border-t border-white/5">
-                      <div className="space-y-1"><div className="flex justify-between items-center"><span className="text-[10px] text-zinc-400 font-bold uppercase tracking-tighter">Extra Time Together</span><input type="number" value={extraHours[p.id] || 0} onChange={e => setExtraHours(prev => ({...prev, [p.id]: Number(e.target.value)}))} className="w-10 bg-black border border-zinc-800 rounded px-1 text-center py-0.5 text-xs outline-none focus:ring-1 focus:ring-[#BA0C2F] text-white" /></div><p className="text-[8px] text-zinc-600 italic leading-none">Offsites, Happy Hours, Prep-time</p></div>
-                      <div className="flex gap-2"><label className="flex items-center gap-1.5 cursor-pointer text-[9px] text-zinc-500 hover:text-zinc-300 transition-colors"><input type="checkbox" checked={nzTo[p.id] || false} onChange={e => setNzTo(prev => ({...prev, [p.id]: e.target.checked}))} className="accent-[#BA0C2F] w-3 h-3" /> To NZ</label><label className="flex items-center gap-1.5 cursor-pointer text-[9px] text-zinc-500 hover:text-zinc-300 transition-colors"><input type="checkbox" checked={nzBack[p.id] || false} onChange={e => setNzBack(prev => ({...prev, [p.id]: e.target.checked}))} className="accent-[#BA0C2F] w-3 h-3" /> Back</label></div>
-                      <a href={`https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(p.name + " UGA")}`} target="_blank" className="flex items-center justify-center gap-2 w-full py-2 bg-[#0077b5]/10 hover:bg-[#0077b5]/20 text-[#0077b5] text-[9px] font-black uppercase rounded-lg border border-[#0077b5]/30 transition-all">Connect</a>
+                      <div className="flex justify-between items-center"><span className="text-[10px] text-zinc-400 font-bold uppercase">Extra Time</span><input type="number" value={extraHours[p.id] || 0} onChange={e => setExtraHours(prev => ({...prev, [p.id]: Number(e.target.value)}))} className="w-10 bg-black border border-zinc-800 rounded px-1 text-center py-0.5 text-xs text-white" /></div>
+                      <div className="flex gap-2"><label className="flex items-center gap-1.5 cursor-pointer text-[9px] text-zinc-500"><input type="checkbox" checked={nzTo[p.id] || false} onChange={e => setNzTo(prev => ({...prev, [p.id]: e.target.checked}))} className="accent-[#BA0C2F]" /> To NZ</label><label className="flex items-center gap-1.5 cursor-pointer text-[9px] text-zinc-500"><input type="checkbox" checked={nzBack[p.id] || false} onChange={e => setNzBack(prev => ({...prev, [p.id]: e.target.checked}))} className="accent-[#BA0C2F]" /> Back</label></div>
                     </div>
                   </motion.div>
                 ))}
@@ -248,9 +233,9 @@ export default function Page() {
             </section>
 
             <section className="py-20 flex flex-col items-center border-t border-white/5">
-              <div ref={shareCardRef} className="w-[500px] h-[500px] bg-zinc-950 border-[8px] border-[#BA0C2F] p-10 text-center relative shadow-2xl flex flex-col justify-between items-center" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
+              <div ref={shareCardRef} className="w-[500px] h-[500px] bg-zinc-950 border-[8px] border-[#BA0C2F] p-10 text-center relative shadow-2xl flex flex-col justify-between items-center" style={{ fontFamily: 'system-ui, sans-serif' }}>
                 <div>
-                  <div className="w-20 h-20 rounded-full border-2 border-[#BA0C2F] mx-auto mb-4 overflow-hidden bg-zinc-800 shadow-lg shrink-0"><img src={`/photos/${selectedId}.png`} className="w-full h-full object-cover" /></div>
+                  <div className="w-20 h-20 rounded-full border-2 border-[#BA0C2F] mx-auto mb-4 overflow-hidden bg-zinc-800"><img src={`/photos/${selectedId}.png`} className="w-full h-full object-cover" /></div>
                   <h2 className="text-3xl font-black mb-1 leading-tight text-white uppercase tracking-tighter">{me.name}</h2>
                   <p className="text-[#BA0C2F] text-[10px] font-black tracking-[0.4em] uppercase mb-8">EMBA '26 Network Wrapped</p>
                 </div>
@@ -259,20 +244,20 @@ export default function Page() {
                   {rankedPeers.slice(0, 3).map((p, i) => (
                     <div key={p.id} className="flex justify-between items-center">
                       <div><p className="font-bold text-sm leading-none mb-1 text-white">#{i+1} {p.name}</p><p className="text-[10px] text-zinc-500">{p.totalHours} Shared Hours</p></div>
-                      <span className={`text-[8px] px-2 py-0.5 rounded font-black uppercase tracking-wider ${getTier(i).color}`}>{getTier(i).label}</span>
+                      <span className={`text-[8px] px-2 py-0.5 rounded font-black uppercase ${getTier(i).color}`}>{getTier(i).label}</span>
                     </div>
                   ))}
                 </div>
                 <div className="w-full">
                   {funStat && <div className="bg-zinc-900/50 p-4 rounded-xl border border-[#BA0C2F]/20 mb-6"><p className="text-white font-bold text-xs leading-tight tracking-tight uppercase">{funStat.text}</p><p className="text-[9px] text-zinc-500 italic mt-1 font-medium">{funStat.sub}</p></div>}
-                  <div className="flex justify-between items-end text-left border-t border-white/5 pt-4"><div><p className="text-[8px] text-zinc-500 font-bold uppercase tracking-tighter mb-1 leading-none">Network Reach</p><p className="text-[#BA0C2F] font-black text-xs italic">{networkInsights.list[0]}, {networkInsights.list[1]}...</p></div><p className="text-[9px] text-zinc-800 font-black tracking-[0.3em] uppercase">UGA TERRY</p></div>
+                  <div className="flex justify-between items-end text-left border-t border-white/5 pt-4"><div><p className="text-[8px] text-zinc-500 font-bold uppercase tracking-tighter mb-1">Network Reach</p><p className="text-[#BA0C2F] font-black text-xs italic">{networkInsights.list[0]}, {networkInsights.list[1]}...</p></div><p className="text-[9px] text-zinc-800 font-black tracking-[0.3em] uppercase">UGA TERRY</p></div>
                 </div>
               </div>
-              <button onClick={handleDownload} className="mt-12 px-10 py-4 bg-[#BA0C2F] text-white font-black rounded-full shadow-2xl hover:scale-105 hover:bg-red-700 transition-all uppercase tracking-widest text-xs font-sans">DOWNLOAD MY EMBA WRAPPED</button>
+              <button onClick={handleDownload} className="mt-12 px-10 py-4 bg-[#BA0C2F] text-white font-black rounded-full shadow-2xl hover:scale-105 transition-all uppercase tracking-widest text-xs">DOWNLOAD MY EMBA WRAPPED</button>
             </section>
           </div>
         ) : (
-          <div className="text-center py-32 text-zinc-500 uppercase font-black tracking-[0.2em] animate-pulse">Select your profile to begin the journey</div>
+          <div className="text-center py-32 text-zinc-500 uppercase font-black tracking-[0.2em]">Select your profile to begin</div>
         )}
       </main>
     </div>
