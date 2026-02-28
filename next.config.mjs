@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  reactStrictMode: true,
+  // This helps prevent build crashes related to image optimization
+  images: {
+    unoptimized: true, 
+  },
 };
 
 export default nextConfig;
