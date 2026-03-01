@@ -34,7 +34,7 @@
     { "id": "stu_luke_darch", "name": "Luke Darch", "role": "Realtor", "company": "Keller Williams Intown" },
     { "id": "stu_michele_lillard", "name": "Michele Lillard", "role": "Senior Director, Capabilities", "company": "The Coca-Cola Company" },
     { "id": "stu_mike_russell", "name": "Mike Russell", "role": "Retired U.S. Army Officer", "company": "U.S. Army" },
-    { "id": "stu_nancy_dorris", "name": "Nancy Dorris", "role": "Owner", "company": "Wildfire Flower Bar LLC" },
+    { "id": "stu_nancy_dorris", "name": "Nancy Pate", "role": "Owner", "company": "Wildfire Flower Bar LLC" },
     { "id": "stu_tyler_thompson", "name": "Tyler Thompson", "role": "Vice President,", "company": "Raymond James" },
     { "id": "stu_evan_howell", "name": "Evan Howell", "role": "Senior Project Manager", "company": "Discover Technologies" },
     { "id": "stu_frank_ros", "name": "Frank Ros", "role": "Managing Director", "company": "Angel Oak Capital" },
