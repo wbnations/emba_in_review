@@ -144,16 +144,27 @@ export default function Page() {
                   </div>
                 </div>
                 <div className="bg-black/40 p-6 rounded-2xl border border-white/5">
-                  <div className="mb-3"><span className="text-[10px] font-black uppercase text-zinc-500 tracking-widest">Top Network Connections</span></div>
-                  {/* Fixed, responsive company badges */}
-                  <div className="flex flex-wrap gap-2">
-                    {networkInsights.list.map(comp => (
-                      <span key={comp} className="text-[min(9px,2.2vw)] px-3 py-1 bg-zinc-800 text-zinc-300 rounded-lg uppercase font-black border border-white/5 block whitespace-nowrap overflow-hidden text-ellipsis max-w-[14ch]" title={comp}>
-                        {comp}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+  <div className="mb-3">
+    <span className="text-[10px] font-black uppercase text-zinc-500 tracking-widest">
+      Top Network Connections
+    </span>
+  </div>
+  <div className="flex flex-wrap gap-2">
+    {/* The Safety Filter: ensures only non-empty company strings render */}
+    {networkInsights.list
+      .filter(comp => comp && comp.trim() !== "") 
+      .map(comp => (
+        <span 
+          key={comp} 
+          className="text-[min(9px,2.2vw)] px-3 py-1 bg-zinc-800 text-zinc-300 rounded-lg uppercase font-black border border-white/5 block whitespace-nowrap overflow-hidden text-ellipsis max-w-[14ch]"
+          title={comp}
+        >
+          {comp}
+        </span>
+      ))}
+  </div>
+</div>
+                
               </div>
 
               <section className="max-w-3xl space-y-4 text-left border-l-2 border-[#BA0C2F] pl-8 py-2">
@@ -164,7 +175,83 @@ export default function Page() {
                 </p>
               </section>
             </header>
+                    <section className="bg-zinc-900/40 border border-white/5 rounded-[2.5rem] p-10 space-y-10 relative overflow-hidden shadow-2xl">
+  <div className="flex items-center gap-4 border-b border-white/5 pb-6">
+    <div className="w-10 h-10 bg-[#BA0C2F] rounded-xl flex items-center justify-center shadow-lg">
+      <Users className="text-black w-6 h-6" />
+    </div>
+    <div>
+      <h2 className="text-2xl font-black uppercase tracking-tighter text-white">Cohort Connectivity Vitals</h2>
+      <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-[0.2em]">The Aggregate Journey: 2024–2026</p>
+    </div>
+  </div>
+  
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+    
+    {/* Academic Pillars: Top 3 Classes */}
+    <div className="space-y-4 border-l border-white/5 pl-8">
+      <p className="text-zinc-500 text-[10px] font-black uppercase tracking-widest">Top 3 Most Discussed Classes</p>
+      <div className="space-y-3">
+        <div className="flex justify-between items-end border-b border-white/5 pb-1">
+          <span className="text-sm font-bold text-white uppercase italic">1. Strategic Mgmt</span>
+          <span className="text-[10px] font-black text-[#BA0C2F]">142 Mentions</span>
+        </div>
+        <div className="flex justify-between items-end border-b border-white/5 pb-1">
+          <span className="text-sm font-bold text-zinc-400 uppercase italic">2. Finance</span>
+          <span className="text-[10px] font-black text-zinc-500">118 Mentions</span>
+        </div>
+        <div className="flex justify-between items-end border-b border-white/5 pb-1">
+          <span className="text-sm font-bold text-zinc-500 uppercase italic">3. Org Behavior</span>
+          <span className="text-[10px] font-black text-zinc-600">94 Mentions</span>
+        </div>
+      </div>
+    </div>
 
+    {/* Emotional Pulse: Top 3 Emojis */}
+    <div className="space-y-4 border-l border-white/5 pl-8">
+      <p className="text-zinc-500 text-[10px] font-black uppercase tracking-widest">Top 3 Reactions</p>
+      <div className="space-y-3">
+        <div className="flex items-center gap-4">
+          <span className="text-3xl">👍</span>
+          <div>
+            <p className="text-lg font-black text-white leading-none">842</p>
+            <p className="text-[8px] text-zinc-500 font-bold uppercase tracking-widest">Alignment Checks</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <span className="text-3xl">😂</span>
+          <div>
+            <p className="text-lg font-black text-white leading-none">615</p>
+            <p className="text-[8px] text-zinc-500 font-bold uppercase tracking-widest">Residency Humor</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <span className="text-3xl">🍷</span>
+          <div>
+            <p className="text-lg font-black text-white leading-none">428</p>
+            <p className="text-[8px] text-zinc-500 font-bold uppercase tracking-widest">NZ Memories</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Connectivity Summary */}
+    <div className="space-y-4 border-l border-white/5 pl-8">
+      <p className="text-zinc-500 text-[10px] font-black uppercase tracking-widest">Cohort Momentum</p>
+      <div className="space-y-4">
+        <div>
+          <p className="text-3xl font-black text-white italic tracking-tighter leading-none">5,200+</p>
+          <p className="text-[8px] text-zinc-500 font-bold uppercase tracking-widest mt-1">Total Thread Messages</p>
+        </div>
+        <div>
+          <p className="text-3xl font-black text-[#BA0C2F] italic tracking-tighter leading-none">10:42 PM</p>
+          <p className="text-[8px] text-zinc-500 font-bold uppercase tracking-widest mt-1">Peak Grinding Hour</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
             <section className="space-y-8 pt-4">
               <div className="flex items-center gap-3"><Award className="w-6 h-6 text-[#BA0C2F]" /><h2 className="text-2xl font-bold uppercase tracking-tight text-zinc-400">Team Intensity Settings</h2></div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
