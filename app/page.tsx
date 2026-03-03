@@ -48,7 +48,8 @@ export default function Page() {
     const peerMap: Record<string, number> = {};
     
     myTeams.forEach(t => {
-      const weeks = TEAM_CONFIG[t.term]?.weeks || 12;
+      const config = TEAM_CONFIG[t.term];
+      const weeks = config?.weeks || 12;
       const baseProximityHours = weeks * 1; 
       const totalSessionTime = ((meetingHours[t.id] || 0) * weeks) + (lateNightHours[t.id] || 0) + baseProximityHours;
       t.memberIds.forEach(mId => {
@@ -82,16 +83,13 @@ export default function Page() {
       { text: `Wait for the Terry coffee machine ${Math.floor((hours * 60) / 3.5)} times`, sub: "The longest 3 minutes of the degree." },
       { text: `Endure ${Math.floor(hours / 14.5)} ATL-to-AKL flights`, sub: "Where are my bags?" },
       { text: `Build ${Math.floor(hours / 2.5)} 60-slide PowerPoint decks`, sub: "AI did what?" },
-      { text: `Sit in ${Math.floor(hours * 0.8)} hours of ATL Traffic`, sub: "Buckhead commuting reality." },
-      { text: `Search for your favorite parking in the Terry Garage ${Math.floor(hours * 1.5)} times`, sub: "Where is my parking badge?" },
+      { text: `Sit in ${Math.floor(hours * 0.8)} hours of GA-400 Traffic`, sub: "Buckhead commuting reality." },
+      { text: `Search for parking in the Terry Garage ${Math.floor(hours * 1.5)} times`, sub: "Why is it always full?" },
       { text: `Wait for the Plane Train at ATL ${Math.floor(hours * 12)} times`, sub: "Please move to the center of the car." },
-      { text: `Endure ${Math.floor(hours / 2)} TSA PreCheck lines`, sub: "Still faster than the Coffee Machine." },
-      { text: `DoorDash ${Math.floor(hours * 1.1)} Starbucks Coffees`, sub: "Fueled by caffeine and spreadsheets." },
+      { text: `Endure ${Math.floor(hours / 2)} TSA PreCheck lines`, sub: "Still faster than the 400." },
+      { text: `Order ${Math.floor(hours * 1.1)} Buckhead Starbucks coffees`, sub: "Fueled by caffeine and spreadsheets." },
       { text: `Maps ${Math.floor(hours * 4)} Peachtree Road detours`, sub: "Atlanta's favorite pastime." },
-      { text: `Read ${Math.floor(hours / 1.2)} HBR Case Studies`, sub: "Executive presence on the go." },
-      { text: `Explain your schedule to friends ${Math.floor(hours / 5)} times`, sub: "No, I can't come this weekend." },
-      { text: `Watch ${Math.floor(hours / 3.5)} UGA Football games`, sub: "From a Buckhead watch party." },
-      { text: `Spot ${Math.floor(hours * 45)} sheep in New Zealand`, sub: "If you made the bus..." }
+      { text: `Spot ${Math.floor(hours * 45)} sheep in New Zealand`, sub: "Counting them during Finance lectures." }
     ];
     const seed = Math.floor(hours * 10);
     return stats[seed % stats.length];
@@ -106,11 +104,13 @@ export default function Page() {
 
   const handleDownload = async () => {
     if (!shareCardRef.current) return;
-    const dataUrl = await toJpeg(shareCardRef.current, { quality: 1, pixelRatio: 2, backgroundColor: '#09090b', skipFonts: true });
-    const link = document.createElement('a');
-    link.download = `${me?.name.replace(' ', '_')}_EMBA_Wrapped.jpg`;
-    link.href = dataUrl;
-    link.click();
+    try {
+      const dataUrl = await toJpeg(shareCardRef.current, { quality: 1, pixelRatio: 2, backgroundColor: '#09090b', skipFonts: true });
+      const link = document.createElement('a');
+      link.download = `${me?.name.replace(' ', '_')}_EMBA_Wrapped.jpg`;
+      link.href = dataUrl;
+      link.click();
+    } catch (err) { console.error(err); }
   };
 
   return (
@@ -150,7 +150,7 @@ export default function Page() {
                 <h2 className="text-[#BA0C2F] text-[10px] font-black uppercase tracking-[0.4em]">Strategic Network Audit</h2>
                 <p className="text-zinc-300 text-sm leading-relaxed font-medium">
                   While the degree measures academic mastery, <span className="text-white font-bold italic">EMBA Wrapped</span> measures your <span className="text-white font-bold italic">Relational Capital</span>. 
-                  Adjust intensity sliders to visualize the shared journey and strategic partnerships that define your UGA Terry experience.
+                  Adjust intensity sliders to visualize the shared journey and strategic partnerships that define your UGA Terry legacy.
                 </p>
               </section>
             </header>
@@ -183,7 +183,7 @@ export default function Page() {
                 {rankedPeers.slice(0, 12).map((p, idx) => (
                   <motion.div layout key={p.id} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 pt-12 relative overflow-hidden group">
                     <div className={`absolute top-3 right-3 px-2 py-0.5 text-[9px] font-black uppercase rounded ${getTier(idx).color}`}>{getTier(idx).label}</div>
-                    <div className="flex items-center gap-4 mb-6"><div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#BA0C2F] bg-zinc-800 shrink-0 shadow-md"><img src={`/photos/${p.id}.png`} className="w-full h-full object-cover" /></div><div className="min-w-0"><h3 className="font-bold text-sm truncate pr-14 leading-tight">{p.name}</h3><p className="text-[#BA0C2F] font-black text-2xl">{p.totalHours}h</p></div></div>
+                    <div className="flex items-center gap-4 mb-6"><div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#BA0C2F] bg-zinc-800 shrink-0"><img src={`/photos/${p.id}.png`} className="w-full h-full object-cover" /></div><div className="min-w-0"><h3 className="font-bold text-sm truncate pr-14 leading-tight">{p.name}</h3><p className="text-[#BA0C2F] font-black text-2xl">{p.totalHours}h</p></div></div>
                     <div className="space-y-4 pt-4 border-t border-white/5">
                       <div className="flex justify-between items-center"><span className="text-[10px] text-zinc-400 font-bold uppercase">Extra Time</span><input type="number" value={extraHours[p.id] || 0} onChange={e => setExtraHours(prev => ({...prev, [p.id]: Number(e.target.value)}))} className="w-10 bg-black border border-zinc-800 rounded px-1 text-xs text-white text-center" /></div>
                       <div className="flex gap-2"><label className="flex items-center gap-1 text-[9px] text-zinc-500"><input type="checkbox" checked={nzTo[p.id] || false} onChange={e => setNzTo(prev => ({...prev, [p.id]: e.target.checked}))} className="accent-[#BA0C2F]" /> To NZ</label><label className="flex items-center gap-1 text-[9px] text-zinc-500"><input type="checkbox" checked={nzBack[p.id] || false} onChange={e => setNzBack(prev => ({...prev, [p.id]: e.target.checked}))} className="accent-[#BA0C2F]" /> Back</label></div>
@@ -194,37 +194,42 @@ export default function Page() {
               </div>
             </section>
 
+            {/* Final Responsive Share Card Section */}
             <section className="py-20 flex flex-col items-center border-t border-white/5">
-              <div ref={shareCardRef} className="w-[500px] h-[500px] bg-zinc-950 border-[8px] border-[#BA0C2F] p-8 text-center relative shadow-2xl flex flex-col justify-between items-center overflow-hidden" style={{ fontFamily: 'system-ui, sans-serif' }}>
-                <div>
-                  <div className="w-16 h-16 rounded-full border-2 border-[#BA0C2F] mx-auto mb-3 overflow-hidden bg-zinc-800 shadow-lg"><img src={`/photos/${selectedId}.png`} className="w-full h-full object-cover" /></div>
-                  <h2 className="text-3xl font-black mb-0.5 leading-tight text-white uppercase tracking-tighter">{me.name}</h2>
-                  <p className="text-[#BA0C2F] text-[9px] font-black tracking-[0.4em] uppercase mb-4">EMBA '26 Network Wrapped</p>
-                </div>
-                <div className="w-full space-y-3 text-left">
-                  <p className="text-[9px] text-zinc-600 font-black uppercase tracking-[0.2em] border-b border-white/10 pb-1.5">Top Strategic Partners</p>
-                  {rankedPeers.slice(0, 3).map((p, i) => (
-                    <div key={p.id} className="flex justify-between items-center">
-                      <div><p className="font-bold text-sm leading-none mb-0.5 text-white">#{i+1} {p.name}</p><p className="text-[9px] text-zinc-500">{p.totalHours} Shared Hours</p></div>
-                      <span className={`text-[8px] px-2 py-0.5 rounded font-black uppercase ${getTier(i).color}`}>{getTier(i).label}</span>
+              <div className="w-full flex justify-center overflow-hidden py-4">
+                <div className="scale-[0.65] sm:scale-100 origin-center transition-transform duration-500">
+                  <div ref={shareCardRef} className="w-[500px] h-[500px] bg-zinc-950 border-[8px] border-[#BA0C2F] p-8 text-center relative shadow-2xl flex flex-col justify-between items-center overflow-hidden" style={{ fontFamily: 'system-ui, sans-serif' }}>
+                    <div>
+                      <div className="w-16 h-16 rounded-full border-2 border-[#BA0C2F] mx-auto mb-3 overflow-hidden bg-zinc-800 shadow-lg"><img src={`/photos/${selectedId}.png`} className="w-full h-full object-cover" /></div>
+                      <h2 className="text-3xl font-black mb-0.5 leading-tight text-white uppercase tracking-tighter">{me.name}</h2>
+                      <p className="text-[#BA0C2F] text-[9px] font-black tracking-[0.4em] uppercase mb-4">EMBA '26 Network Wrapped</p>
                     </div>
-                  ))}
-                </div>
-                <div className="w-full mt-4">
-                  {funStat && (
-                    <div className="bg-zinc-900/50 p-3 rounded-xl border border-[#BA0C2F]/20 mb-4">
-                      <p className="text-[8px] text-zinc-500 font-bold uppercase tracking-widest mb-1 leading-none">In this time you could have...</p>
-                      <p className="text-white font-bold text-[11px] leading-tight tracking-tight uppercase">{funStat.text}</p>
-                      <p className="text-[8px] text-zinc-500 italic mt-1 font-medium">{funStat.sub}</p>
+                    <div className="w-full space-y-3 text-left">
+                      <p className="text-[9px] text-zinc-600 font-black uppercase tracking-[0.2em] border-b border-white/10 pb-1.5">Top Strategic Partners</p>
+                      {rankedPeers.slice(0, 3).map((p, i) => (
+                        <div key={p.id} className="flex justify-between items-center">
+                          <div><p className="font-bold text-sm leading-none mb-0.5 text-white">#{i+1} {p.name}</p><p className="text-[9px] text-zinc-500">{p.totalHours} Shared Hours</p></div>
+                          <span className={`text-[8px] px-2 py-0.5 rounded font-black uppercase ${getTier(i).color}`}>{getTier(i).label}</span>
+                        </div>
+                      ))}
                     </div>
-                  )}
-                  <div className="flex justify-between items-end text-left border-t border-white/5 pt-3">
-                    <div className="flex-1 min-w-0"><p className="text-[8px] text-zinc-500 font-bold uppercase tracking-tighter mb-1 leading-none">Top Network Companies</p><p className="text-[#BA0C2F] font-black text-[10px] italic truncate pr-4">{networkInsights.list.slice(0, 3).join(", ")}{networkInsights.list.length > 3 ? "..." : ""}</p></div>
-                    <p className="text-[9px] text-zinc-800 font-black tracking-[0.3em] uppercase shrink-0">UGA TERRY</p>
+                    <div className="w-full mt-4">
+                      {funStat && (
+                        <div className="bg-zinc-900/50 p-3 rounded-xl border border-[#BA0C2F]/20 mb-4 text-left">
+                          <p className="text-[8px] text-zinc-500 font-bold uppercase tracking-widest mb-1 leading-none">In this time you could have...</p>
+                          <p className="text-white font-bold text-[11px] leading-tight tracking-tight uppercase">{funStat.text}</p>
+                          <p className="text-[8px] text-zinc-500 italic mt-1 font-medium">{funStat.sub}</p>
+                        </div>
+                      )}
+                      <div className="flex justify-between items-end text-left border-t border-white/5 pt-3">
+                        <div className="flex-1 min-w-0"><p className="text-[8px] text-zinc-500 font-bold uppercase tracking-tighter mb-1 leading-none">Top Network Companies</p><p className="text-[#BA0C2F] font-black text-[10px] italic truncate pr-4">{networkInsights.list.slice(0, 3).join(", ")}{networkInsights.list.length > 3 ? "..." : ""}</p></div>
+                        <p className="text-[9px] text-zinc-800 font-black tracking-[0.3em] uppercase shrink-0">UGA TERRY</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <button onClick={handleDownload} className="mt-12 px-10 py-4 bg-[#BA0C2F] text-white font-black rounded-full shadow-2xl hover:scale-105 transition-all uppercase tracking-widest text-xs">Download My Wrapped</button>
+              <button onClick={handleDownload} className="mt-6 px-10 py-4 bg-[#BA0C2F] text-white font-black rounded-full shadow-2xl hover:scale-105 transition-all uppercase tracking-widest text-xs">Download My Wrapped</button>
             </section>
           </div>
         ) : (
