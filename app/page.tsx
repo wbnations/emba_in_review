@@ -136,13 +136,23 @@ export default function Page() {
                 <div className="lg:col-span-2 flex items-center gap-8">
                   <div className="w-32 h-32 rounded-full border-4 border-[#BA0C2F] overflow-hidden bg-zinc-800 shrink-0 shadow-2xl"><img src={`/photos/${selectedId}.png`} className="w-full h-full object-cover" /></div>
                   <div>
-                    <h1 className="text-5xl font-extrabold tracking-tighter leading-none mb-4 uppercase text-white">Cheers, <br /><span className="text-[#BA0C2F]">{me.name}</span></h1>
+                    {/* Fixed, responsive header text */}
+                    <h1 className="text-[clamp(1.5rem,6vw,3rem)] font-extrabold tracking-tighter leading-[0.9] mb-4 uppercase text-white break-words max-w-[12ch] sm:max-w-none">
+                      Cheers, <br /><span className="text-[#BA0C2F]">{me.name}</span>
+                    </h1>
                     <p className="text-zinc-500 font-bold uppercase tracking-widest text-[10px]">Terry College of Business</p>
                   </div>
                 </div>
                 <div className="bg-black/40 p-6 rounded-2xl border border-white/5">
                   <div className="mb-3"><span className="text-[10px] font-black uppercase text-zinc-500 tracking-widest">Top Network Connections</span></div>
-                  <div className="flex flex-wrap gap-2">{networkInsights.list.map(comp => <span key={comp} className="text-[8px] px-3 py-1 bg-zinc-800 text-zinc-300 rounded-lg uppercase font-black border border-white/5">{comp}</span>)}</div>
+                  {/* Fixed, responsive company badges */}
+                  <div className="flex flex-wrap gap-2">
+                    {networkInsights.list.map(comp => (
+                      <span key={comp} className="text-[min(9px,2.2vw)] px-3 py-1 bg-zinc-800 text-zinc-300 rounded-lg uppercase font-black border border-white/5 block whitespace-nowrap overflow-hidden text-ellipsis max-w-[14ch]" title={comp}>
+                        {comp}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -183,7 +193,7 @@ export default function Page() {
                 {rankedPeers.slice(0, 12).map((p, idx) => (
                   <motion.div layout key={p.id} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 pt-12 relative overflow-hidden group">
                     <div className={`absolute top-3 right-3 px-2 py-0.5 text-[9px] font-black uppercase rounded ${getTier(idx).color}`}>{getTier(idx).label}</div>
-                    <div className="flex items-center gap-4 mb-6"><div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#BA0C2F] bg-zinc-800 shrink-0"><img src={`/photos/${p.id}.png`} className="w-full h-full object-cover" /></div><div className="min-w-0"><h3 className="font-bold text-sm truncate pr-14 leading-tight">{p.name}</h3><p className="text-[#BA0C2F] font-black text-2xl">{p.totalHours}h</p></div></div>
+                    <div className="flex items-center gap-4 mb-6"><div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#BA0C2F] bg-zinc-800 shrink-0 shadow-md"><img src={`/photos/${p.id}.png`} className="w-full h-full object-cover" /></div><div className="min-w-0"><h3 className="font-bold text-sm truncate pr-14 leading-tight">{p.name}</h3><p className="text-[#BA0C2F] font-black text-2xl">{p.totalHours}h</p></div></div>
                     <div className="space-y-4 pt-4 border-t border-white/5">
                       <div className="flex justify-between items-center"><span className="text-[10px] text-zinc-400 font-bold uppercase">Extra Time</span><input type="number" value={extraHours[p.id] || 0} onChange={e => setExtraHours(prev => ({...prev, [p.id]: Number(e.target.value)}))} className="w-10 bg-black border border-zinc-800 rounded px-1 text-xs text-white text-center" /></div>
                       <div className="flex gap-2"><label className="flex items-center gap-1 text-[9px] text-zinc-500"><input type="checkbox" checked={nzTo[p.id] || false} onChange={e => setNzTo(prev => ({...prev, [p.id]: e.target.checked}))} className="accent-[#BA0C2F]" /> To NZ</label><label className="flex items-center gap-1 text-[9px] text-zinc-500"><input type="checkbox" checked={nzBack[p.id] || false} onChange={e => setNzBack(prev => ({...prev, [p.id]: e.target.checked}))} className="accent-[#BA0C2F]" /> Back</label></div>
@@ -194,7 +204,6 @@ export default function Page() {
               </div>
             </section>
 
-            {/* Final Responsive Share Card Section */}
             <section className="py-20 flex flex-col items-center border-t border-white/5">
               <div className="w-full flex justify-center overflow-hidden py-4">
                 <div className="scale-[0.65] sm:scale-100 origin-center transition-transform duration-500">
